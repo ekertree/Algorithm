@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 /**
  * ClassName: KruskalAlgorithm
- * Description:
+ * Description:克鲁斯卡尔算法 求最小生成树 通过找最短的边
  * date: 2022/7/25 11:03
  *
  * @author Ekertree

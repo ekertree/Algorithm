@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 /**
  * ClassName: PrimAlgorithm
- * Description:Prim 算法
+ * Description:Prim 算法 求最小生成树 通过找距离最短的点
  * date: 2022/7/24 11:14
  *
  * @author Ekertree
