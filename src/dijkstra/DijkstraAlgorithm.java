@@ -1,6 +1,8 @@
 package dijkstra;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * ClassName: DijkstraAlgorithm
@@ -26,7 +28,7 @@ public class DijkstraAlgorithm {
         Gragh gragh = new Gragh(vertexes, matrix);
         gragh.showGraph();
         gragh.dijkstra(0);
-        gragh.showDijkstra();
+        gragh.showDijkstra(3);
     }
 }
 
@@ -52,7 +54,7 @@ class Gragh {
     /**
      *
      * @param index 出发顶点对应的下标
-     *  1.先更新出发点和相连顶点的距离和前驱
+     *  1.先更新出发点和相连顶点的距离和前驱 前驱的作用是查找最短路径
      *  2.每次选择距离出发点最近的顶点作为更新相连结点的距离和前驱的下一个顶点
      *  3.这样子，就相当于遍历了以每一个顶点为前驱顶点到下一个顶点的距离，而每次只要距离小于上次的结果，距离就会被更新
      *    则最终保留的就是最短的距离
@@ -90,18 +92,20 @@ class Gragh {
     }
 
     //展示结果
-    public void showDijkstra(){
-        this.vertexesInfo.showResult();
+    public void showDijkstra(int end){
+        this.vertexesInfo.showResult(end);
     }
 }
 
 class VertexesInfo{
     //记录各个顶点是否访问过
     public boolean[] isVisited;
-    //记录每个顶点的前驱顶点
+    //记录每个顶点的前驱顶点 用于查找最短路径
     public int[] preVertexes;
     //记录出发点到各个顶点的最短距离
     public int[] distance;
+    //记录出发点
+    public int index;
 
     /**
      *
@@ -109,6 +113,7 @@ class VertexesInfo{
      * @param length 顶点的个数
      */
     public VertexesInfo(int index,int length) {
+        this.index = index;
         this.isVisited = new boolean[length];
         this.preVertexes = new int[length];
         this.distance = new int[length];
@@ -162,20 +167,24 @@ class VertexesInfo{
     }
 
     //显示结果
-    public void showResult() {
-        System.out.println("访问情况：");
-        for (boolean b : this.isVisited) {
-            System.out.print(b+" ");
+    public void showResult(int end) {
+        char[] vertexes = {'A', 'B', 'C', 'D', 'E', 'F', 'G'};
+        List<Integer> list = new ArrayList<>();
+        this.find(this.preVertexes[end],list);
+        System.out.println(vertexes[this.index] + "到" + vertexes[end] + "的最短路径为:");
+        for (int i = 0; i < list.size(); i++) {
+            System.out.print(vertexes[list.get(i)]+"->");
         }
-        System.out.println();
-        System.out.println("前驱顶点：");
-        for (int preVertex : this.preVertexes) {
-            System.out.print(preVertex + " ");
-        }
-        System.out.println();
-        System.out.println("距离：");
-        for (int i : this.distance) {
-            System.out.print(i+" ");
+        System.out.println(vertexes[end]);
+        System.out.println("最短距离为："+this.distance[end]);
+    }
+
+    public void find(int end, List<Integer> list){
+        if (end != this.preVertexes[end]) {
+            find(this.preVertexes[end], list);
+            list.add(end);
+        }else{
+            list.add(end);
         }
     }
 }
